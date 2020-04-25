@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head> 
+	<style>
+	.main{
+		width:300px;
+		height:300px;
+		background:#bbb;
+		margin:7% auto;
+		vertical-align:middle;
+		padding:3%;
+		text-align:center;
+		font-family:Verdana;
+	}
+	input{
+		padding:10px;
+		font-size:16px;
+	}
+	button{
+		padding:10px;
+		background:#fff;
+		color:#000;
+	}
+	h2{
+		color:#000;
+		font-size:42px;
+	}
+	</style>
+</head>
+<body onload="doCalculate()">
+<div class="main">
+	<input type="text" name="username" value="100"  id="username" >
+	<button onclick="doCalculate()" >Submit</button>
+	<h2 id="demo" ></h2>
+</div>
+<script>
+function doCalculate(){
+	var tot = document.getElementById("username").value;
+	var persons = [];
+	for (var i = 1; i <= tot; i++) {
+		persons.push(i);
+	}
+	var currentDelIndex = 1, loop  = 1;
+	var currentLoopCount = persons.length;
+	var prevLoopCount = currentLoopCount;
+	var prevDelIndex = currentDelIndex;
+
+	while (currentLoopCount > 1) {
+	  persons.splice(currentDelIndex, 1);
+	  currentLoopCount = persons.length;
+	  if(currentDelIndex >= currentLoopCount){
+		if(prevDelIndex == 1 && prevLoopCount % 2 == 0){
+			prevDelIndex = 1;
+			currentDelIndex = 0;
+			prevLoopCount = currentLoopCount;
+		}	
+		else if(prevDelIndex == 0 && prevLoopCount % 2 == 0){
+			prevDelIndex = 0;
+			currentDelIndex = -1;
+			prevLoopCount = currentLoopCount;
+		}
+		else if(prevDelIndex == 1 && prevLoopCount % 2 == 1){
+			prevDelIndex = 0;
+			currentDelIndex = -1;
+			prevLoopCount = currentLoopCount;
+		}
+		else if(prevDelIndex == 0 && prevLoopCount % 2 == 1){
+			prevDelIndex = 1;
+			currentDelIndex = 0;
+			prevLoopCount = currentLoopCount;
+		}
+		prevLoopCount = currentLoopCount;
+		 
+		loop++;
+	  }
+	  currentDelIndex++;
+	}
+	document.getElementById("demo").innerHTML = persons[0];
+}
+</script>
+
+</body>
+</html>

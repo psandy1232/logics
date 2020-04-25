@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
+	<title>Logic-100 Members</title>
 	<style>
 	.main{
 		width:300px;
-		height:150px;
+		height:170px;
 		background:darkblue;
 		margin:7% auto;
 		vertical-align:middle;
@@ -35,14 +36,19 @@
 	}
 	h2{
 		color:#fff;
-		font-size:56px;
+		font-size:52px;
+	}
+	h2 p{
+		color:#ff0000;
+		font-size:16px;
+		line-height:26px;
 	}
 	</style>
 </head>
 <body onload="doCalculate()">
 <div class="main">
 	<form onSubmit="return doCalculate()" >
-		<input type="text" name="username" value="100"  id="username" >
+		<input type="text" name="username" value="100" id="username" autocomplete="off" />
 		<button type="submit" >Submit</button>
 		<h2 id="demo" ></h2>
 	</form>
@@ -50,36 +56,50 @@
 <script>
 function doCalculate(){
 	var tot = document.getElementById("username").value;
-	var persons = [];
-	for (var i = 1; i <= tot; i++) {
-		persons.push(i);
-	}
-	var currentDelIndex = 1;
-	var currentLoopCount = persons.length;
-	var prevLoopCount = currentLoopCount;
-	var prevDelIndex = currentDelIndex;
+	if(tot){
+		if(isNaN(tot)){
+			document.getElementById("demo").innerHTML = "<p>Please enter valid number</p>";
+			return false;
+		}
+		if(tot > 10000){
+			document.getElementById("demo").innerHTML = "<p>Input should not be greater than 10000</p>";
+			return false;
+		}
+		var persons = [];
+		for (var i = 1; i <= tot; i++) {
+			persons.push(i);
+		}
+		var currentDelIndex = 1, prevDelIndex = 1;
+		var currentLoopCount = persons.length;
+		var prevLoopCount = currentLoopCount;
 
-	while (currentLoopCount > 1) {
-	  persons.splice(currentDelIndex, 1);
-	  currentLoopCount = persons.length;
-	  if(currentDelIndex >= currentLoopCount){
-		if(prevDelIndex == 1 && prevLoopCount % 2 == 0){
-			prevDelIndex = 1; currentDelIndex = 0;
-		}	
-		else if(prevDelIndex == 0 && prevLoopCount % 2 == 0){
-			prevDelIndex = 0; currentDelIndex = -1;
+		while (currentLoopCount > 1) {
+		  persons.splice(currentDelIndex, 1);
+		  currentLoopCount = persons.length;
+		  if(currentDelIndex >= currentLoopCount){
+			if(prevDelIndex == 1 && prevLoopCount % 2 == 0){
+				prevDelIndex = 1; 
+				currentDelIndex = 0;
+			}else if(prevDelIndex == 0 && prevLoopCount % 2 == 0){
+				prevDelIndex = 0; 
+				currentDelIndex = -1;
+			}else if(prevDelIndex == 1 && prevLoopCount % 2 == 1){
+				prevDelIndex = 0; 
+				currentDelIndex = -1;
+			}else if(prevDelIndex == 0 && prevLoopCount % 2 == 1){
+				prevDelIndex = 1; 
+				currentDelIndex = 0;
+			}
+			prevLoopCount = currentLoopCount;
+		  }
+		  currentDelIndex++;
 		}
-		else if(prevDelIndex == 1 && prevLoopCount % 2 == 1){
-			prevDelIndex = 0; currentDelIndex = -1;
-		}
-		else if(prevDelIndex == 0 && prevLoopCount % 2 == 1){
-			prevDelIndex = 1; currentDelIndex = 0;
-		}
-		prevLoopCount = currentLoopCount;
-	  }
-	  currentDelIndex++;
+		document.getElementById("demo").innerHTML = persons[0];
+	}else{
+		document.getElementById("demo").innerHTML = "<p>Input shouldn't be empty</p>";
 	}
-	document.getElementById("demo").innerHTML = persons[0];
+			
+	document.getElementById("username").focus();
 	return false;
 }
 </script>

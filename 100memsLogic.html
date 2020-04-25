@@ -4,8 +4,8 @@
 	<style>
 	.main{
 		width:300px;
-		height:300px;
-		background:#bbb;
+		height:150px;
+		background:darkblue;
 		margin:7% auto;
 		vertical-align:middle;
 		padding:3%;
@@ -15,23 +15,37 @@
 	input{
 		padding:10px;
 		font-size:16px;
+		border-radius:5px;
 	}
 	button{
-		padding:10px;
+		padding:12px;
+		background:#ff0000;
+		color:#fff;
+		transition:all 0.5s;
+		border:none;
+		cursor:pointer;
+		border-radius:5px;
+	}
+	button:hover{
 		background:#fff;
-		color:#000;
+		border:#ff0000;
+		color:#ff0000;
+		transition:all 0.5s;
+		
 	}
 	h2{
-		color:#000;
-		font-size:42px;
+		color:#fff;
+		font-size:56px;
 	}
 	</style>
 </head>
 <body onload="doCalculate()">
 <div class="main">
-	<input type="text" name="username" value="100"  id="username" >
-	<button onclick="doCalculate()" >Submit</button>
-	<h2 id="demo" ></h2>
+	<form onSubmit="return doCalculate()" >
+		<input type="text" name="username" value="100"  id="username" >
+		<button type="submit" >Submit</button>
+		<h2 id="demo" ></h2>
+	</form>
 </div>
 <script>
 function doCalculate(){
@@ -40,7 +54,7 @@ function doCalculate(){
 	for (var i = 1; i <= tot; i++) {
 		persons.push(i);
 	}
-	var currentDelIndex = 1, loop  = 1;
+	var currentDelIndex = 1;
 	var currentLoopCount = persons.length;
 	var prevLoopCount = currentLoopCount;
 	var prevDelIndex = currentDelIndex;
@@ -50,32 +64,23 @@ function doCalculate(){
 	  currentLoopCount = persons.length;
 	  if(currentDelIndex >= currentLoopCount){
 		if(prevDelIndex == 1 && prevLoopCount % 2 == 0){
-			prevDelIndex = 1;
-			currentDelIndex = 0;
-			prevLoopCount = currentLoopCount;
+			prevDelIndex = 1; currentDelIndex = 0;
 		}	
 		else if(prevDelIndex == 0 && prevLoopCount % 2 == 0){
-			prevDelIndex = 0;
-			currentDelIndex = -1;
-			prevLoopCount = currentLoopCount;
+			prevDelIndex = 0; currentDelIndex = -1;
 		}
 		else if(prevDelIndex == 1 && prevLoopCount % 2 == 1){
-			prevDelIndex = 0;
-			currentDelIndex = -1;
-			prevLoopCount = currentLoopCount;
+			prevDelIndex = 0; currentDelIndex = -1;
 		}
 		else if(prevDelIndex == 0 && prevLoopCount % 2 == 1){
-			prevDelIndex = 1;
-			currentDelIndex = 0;
-			prevLoopCount = currentLoopCount;
+			prevDelIndex = 1; currentDelIndex = 0;
 		}
 		prevLoopCount = currentLoopCount;
-		 
-		loop++;
 	  }
 	  currentDelIndex++;
 	}
 	document.getElementById("demo").innerHTML = persons[0];
+	return false;
 }
 </script>
 
